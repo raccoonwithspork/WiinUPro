@@ -62,7 +62,7 @@ namespace WiinUPro
         internal string _selectedInput;
         internal ShiftState _currentState;
         internal Shared.DeviceInfo _info;
-        internal ScpDirector _scp;
+        internal ViGemXinputDirector _scp; // TODO refactor name
         internal Dictionary<string, AssignmentCollection>[] _assignments;
         private bool[] _rumbleSubscriptions = new bool[4];
         private Task _readTask;
@@ -115,7 +115,7 @@ namespace WiinUPro
             };
 
             _info = deviceInfo;
-            _scp = ScpDirector.Access;
+            _scp = ViGemXinputDirector.Access;
             _joystick = new Joystick(MainWindow.DInput, _info.InstanceGUID);
             calibrations = new Dictionary<JoystickOffset, AxisCalibration>();
 

@@ -24,7 +24,7 @@ namespace WiinUPro
         public Style keyStyle;
         public Style keySelectedStyle;
 
-        protected ScpDirector.XInput_Device _selectedDevice = ScpDirector.XInput_Device.Device_A;
+        protected ViGemXinputDirector.XInput_Device _selectedDevice = ViGemXinputDirector.XInput_Device.Device_A;
         protected IDeviceControl _control;
 
         private List<VirtualKeyCode> _selectedKeys;
@@ -564,7 +564,7 @@ namespace WiinUPro
 
         // This is meant to change what selections are made for each XInput device (a, b, c, d)
         // Currently an assigment collection can only be tied to one XInput device at a time
-        //void UpdateXboxVisual(ScpDirector.XInput_Device target)
+        //void UpdateXboxVisual(ViGemXinputDirector.XInput_Device target)
         //{
         //    // Clear all the visuals
         //    foreach (var child in xboxGrid.Children)
@@ -959,12 +959,12 @@ namespace WiinUPro
 
         private void xInputConnect_Click(object sender, RoutedEventArgs e)
         {
-            ScpDirector.Access.ConnectDevice(_selectedDevice);
+            ViGemXinputDirector.Access.ConnectDevice(_selectedDevice);
         }
 
         private void xInputDisconnect_Click(object sender, RoutedEventArgs e)
         {
-            ScpDirector.Access.DisconnectDevice(_selectedDevice);
+            ViGemXinputDirector.Access.DisconnectDevice(_selectedDevice);
         }
 
         #endregion
@@ -973,10 +973,10 @@ namespace WiinUPro
 
         private void deviceSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-                 if (deviceSelection.SelectedIndex == 0) _selectedDevice = ScpDirector.XInput_Device.Device_A;
-            else if (deviceSelection.SelectedIndex == 1) _selectedDevice = ScpDirector.XInput_Device.Device_B;
-            else if (deviceSelection.SelectedIndex == 2) _selectedDevice = ScpDirector.XInput_Device.Device_C;
-            else if (deviceSelection.SelectedIndex == 3) _selectedDevice = ScpDirector.XInput_Device.Device_D;
+                 if (deviceSelection.SelectedIndex == 0) _selectedDevice = ViGemXinputDirector.XInput_Device.Device_A;
+            else if (deviceSelection.SelectedIndex == 1) _selectedDevice = ViGemXinputDirector.XInput_Device.Device_B;
+            else if (deviceSelection.SelectedIndex == 2) _selectedDevice = ViGemXinputDirector.XInput_Device.Device_C;
+            else if (deviceSelection.SelectedIndex == 3) _selectedDevice = ViGemXinputDirector.XInput_Device.Device_D;
 
             // TODO: Display the inputs for this specific device (later)
             // once a single assignment can have multiple XInput devices

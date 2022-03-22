@@ -82,8 +82,13 @@ namespace Shared.Windows
                 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 2)) // temp
             {
                 SharingMode = FileShare.ReadWrite;
+                // TODO changed this from 'true' to 'false' to fix System.NullReferenceException errors
+                // that only occurred in Release builds when connecting Pro controllers
+                // (may affect other controllers, but only tested with Wii U Pro).
+                // Why is even an option? Is it related to supporting the Toshiba BT stack? Do we need it if only supporting the MS BT stack?
+                // Appears that 'true' is needed to initialize the controller. With 'false' initialization fails.
                 UseWriteFile = true;
-
+                 
                 // A certian build of Windows 10 seems to have fixed the FileShare.None issue
                 //if (Environment.OSVersion.Version.Major == 10 &&
                 //    Environment.OSVersion.Version.Build >= 10586/* &&
@@ -364,7 +369,9 @@ namespace Shared.Windows
 
         public override void Write(byte[] buffer, int offset, int count)
         {
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("Writing: " + BitConverter.ToString(buffer));
+#endif
 
             if (UseFullReportSize)
             {
@@ -423,33 +430,43 @@ namespace Shared.Windows
 
         public override void WriteByte(byte value)
         {
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("Writing single byte");
+#endif
             throw new NotSupportedException();
         }
 
         public override void Flush()
         {
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("Flushing");
+#endif
             throw new NotImplementedException();
         }
 
         public override long Seek(long offset, SeekOrigin origin)
         {
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("Seeking");
+#endif
             throw new NotImplementedException();
         }
 
         public override void SetLength(long value)
         {
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("Setting Length");
+#endif
             throw new NotImplementedException();
         }
 
         public override int Read(byte[] buffer, int offset, int count)
         {
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("Read");
+#endif
             throw new NotImplementedException();
         }
-        #endregion
+#endregion
     }
 }

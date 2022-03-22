@@ -131,7 +131,9 @@ namespace WiinUSoft
             }
             catch (Exception e) 
             {
+#if DEBUG
                 System.Diagnostics.Debug.WriteLine(e.Message);
+#endif
             }
 
             return successful;
@@ -170,7 +172,9 @@ namespace WiinUSoft
             }
             catch (Exception e)
             {
+#if DEBUG
                 System.Diagnostics.Debug.WriteLine(e.Message);
+#endif
             }
 
             return successful;

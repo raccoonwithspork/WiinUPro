@@ -8,7 +8,7 @@ namespace WiinUPro
         /// <summary>
         /// The XInput Device to use
         /// </summary>
-        public ScpDirector.XInput_Device Device { get; set; }
+        public ViGemXinputDirector.XInput_Device Device { get; set; }
 
         /// <summary>
         /// The Xbox 360 Button to be simulated
@@ -71,7 +71,7 @@ namespace WiinUPro
 
         public XInputButtonAssignment() { }
 
-        public XInputButtonAssignment(X360Button button, ScpDirector.XInput_Device device = ScpDirector.XInput_Device.Device_A)
+        public XInputButtonAssignment(X360Button button, ViGemXinputDirector.XInput_Device device = ViGemXinputDirector.XInput_Device.Device_A)
         {
             Button = button;
             Device = device;
@@ -92,7 +92,7 @@ namespace WiinUPro
                 {
                     if (_lastState)
                     {
-                        ScpDirector.Access.SetButton(Button, false, Device);
+                        ViGemXinputDirector.Access.SetButton(Button, false, Device);
                         _lastState = false;
                     }
 
@@ -105,12 +105,12 @@ namespace WiinUPro
                 {
                     if (_lastState)
                     {
-                        ScpDirector.Access.SetButton(Button, false, Device);
+                        ViGemXinputDirector.Access.SetButton(Button, false, Device);
                         _lastState = false;
                     }
                     else
                     {
-                        ScpDirector.Access.SetButton(Button, true, Device);
+                        ViGemXinputDirector.Access.SetButton(Button, true, Device);
                         _lastState = true;
                     }
 
@@ -119,7 +119,7 @@ namespace WiinUPro
             }
             else if (isDown != _lastState)
             {
-                ScpDirector.Access.SetButton(Button, isDown, Device);
+                ViGemXinputDirector.Access.SetButton(Button, isDown, Device);
                 _lastState = isDown;
             }
         }

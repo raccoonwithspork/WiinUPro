@@ -457,7 +457,7 @@ namespace WiinUPro
             // Update
         }
 
-        public void XboxAssign(ScpDirector.XInput_Device device = ScpDirector.XInput_Device.Device_A)
+        public void XboxAssign(ViGemXinputDirector.XInput_Device device = ViGemXinputDirector.XInput_Device.Device_A)
         {
             Dictionary<string, AssignmentCollection> defaults = new Dictionary<string, AssignmentCollection>();
 

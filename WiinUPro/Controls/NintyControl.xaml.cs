@@ -29,7 +29,8 @@ namespace WiinUPro
         internal ShiftState _currentState;          // Current shift state being applied
         internal Shared.DeviceInfo _info;           // Info on this device, HID path, Type
 
-        internal ScpDirector _scp;                  // Quick reference to SCP Director
+        // TODO refactor name
+        internal ViGemXinputDirector _scp;                  // Quick reference to SCP Director
         internal Dictionary<string, AssignmentCollection>[] _assignments;
 
         private bool[] _rumbleSubscriptions = new bool[4];
@@ -73,7 +74,7 @@ namespace WiinUPro
             };
 
             _info = deviceInfo;
-            _scp = ScpDirector.Access;
+            _scp = ViGemXinputDirector.Access;
         }
 
         public NintyControl(DeviceInfo deviceInfo, CommonStream stream) : this(deviceInfo)
@@ -427,9 +428,9 @@ namespace WiinUPro
                     string fileNameEnding = fileNameParts[fileNameParts.Length - 1].Replace(".wup", "");
 
                     if (int.TryParse(fileNameEnding, out int profileNum)
-                        && profileNum >= (int)ScpDirector.XInput_Device.Device_A
-                        && profileNum <= (int)ScpDirector.XInput_Device.Device_D
-                        && ScpDirector.Access.IsConnected((ScpDirector.XInput_Device)profileNum)
+                        && profileNum >= (int)ViGemXinputDirector.XInput_Device.Device_A
+                        && profileNum <= (int)ViGemXinputDirector.XInput_Device.Device_D
+                        && ViGemXinputDirector.Access.IsConnected((ViGemXinputDirector.XInput_Device)profileNum)
                         && !_rumbleSubscriptions[profileNum - 1])
                     {
                         LoadProfile(fileName.Replace($"{profileNum}.wup", $"{profileNum+1}.wup"));
@@ -442,11 +443,11 @@ namespace WiinUPro
                 {
                     if (loadedProfile.RumbleDevices[i])
                     {
-                        ScpDirector.Access.SubscribeToRumble((ScpDirector.XInput_Device)(i + 1), ApplyRumble);
+                        ViGemXinputDirector.Access.SubscribeToRumble((ViGemXinputDirector.XInput_Device)(i + 1), ApplyRumble);
                     }
                     else if (_rumbleSubscriptions[i])
                     {
-                        ScpDirector.Access.UnSubscribeToRumble((ScpDirector.XInput_Device)(i + 1), ApplyRumble);
+                        ViGemXinputDirector.Access.UnSubscribeToRumble((ViGemXinputDirector.XInput_Device)(i + 1), ApplyRumble);
                     }
                 }
                 _rumbleSubscriptions = loadedProfile.RumbleDevices;
@@ -522,7 +523,7 @@ namespace WiinUPro
             }
 
             // Send any XInput changes
-            //ScpDirector.Access.ApplyAll();
+            //ViGemXinputDirector.Access.ApplyAll();
             // TODO: only update devices this controller is emulating
             _scp.ApplyAll();
 
@@ -695,11 +696,11 @@ namespace WiinUPro
             {
                 if (win.Result[i])
                 {
-                    ScpDirector.Access.SubscribeToRumble((ScpDirector.XInput_Device)(i + 1), ApplyRumble);
+                    ViGemXinputDirector.Access.SubscribeToRumble((ViGemXinputDirector.XInput_Device)(i + 1), ApplyRumble);
                 }
                 else if (_rumbleSubscriptions[i])
                 {
-                    ScpDirector.Access.UnSubscribeToRumble((ScpDirector.XInput_Device)(i + 1), ApplyRumble);
+                    ViGemXinputDirector.Access.UnSubscribeToRumble((ViGemXinputDirector.XInput_Device)(i + 1), ApplyRumble);
                 }
             }
 

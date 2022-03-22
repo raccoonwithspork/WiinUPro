@@ -370,9 +370,9 @@ namespace NintrollerLib
 
         internal static void Log(string message)
         {
-            #if DEBUG
+#if DEBUG
             Debug.WriteLine(message);
-            #endif
+#endif
         }
 
         #endregion
@@ -770,12 +770,14 @@ namespace NintrollerLib
                     switch(_readType)
                     {
                         case ReadReportType.Extension_A:
+                            Log("ReadReportType.Extension_A");
                             // Initialize
                             lock (_readingObj)
                             {
                                 // TODO: Can report[0] ever be equal to 0x04 here? Considering it has to be 0x21 to get here...
                                 if (report[0] != 0x04)
                                 {
+                                    // TODO commenting these out fixes the Release-only crashes for my Wii U Pro controller. Why?
                                     WriteToMemory(Constants.REGISTER_EXTENSION_INIT_1, new byte[] { 0x55 });
                                     WriteToMemory(Constants.REGISTER_EXTENSION_INIT_2, new byte[] { 0x00 });
                                 }
@@ -786,6 +788,7 @@ namespace NintrollerLib
                             break;
 
                         case ReadReportType.Extension_B:
+                            Log("ReadReportType.Extension_B");
                             if (report.Length < 6)
                             {
                                 _readType = ReadReportType.Unknown;
@@ -1010,7 +1013,7 @@ namespace NintrollerLib
 
                                 // Fire ExtensionChange event
                                 //ExtensionChange(this, _currentType);
-                                ExtensionChange(this, new NintrollerExtensionEventArgs(_currentType));
+                                ExtensionChange?.Invoke(this, new NintrollerExtensionEventArgs(_currentType));
                                 
                                 // set Report
                                 ApplyReportingType(applyReport, continuiousReporting);
@@ -1091,6 +1094,7 @@ namespace NintrollerLib
 
                         case AcknowledgementType.IR_Step1:
                             #region IR Step 1
+                            Log("IR_Step1");
                             byte[] sensitivityBlock1 = null;
                             
                             switch (_irSensitivity)
@@ -1136,6 +1140,7 @@ namespace NintrollerLib
 
                         case AcknowledgementType.IR_Step2:
                             #region IR Step 2
+                            Log("IR_Step2");
                             byte[] sensitivityBlock2 = null;
                             
                             switch (_irSensitivity)
@@ -1180,17 +1185,20 @@ namespace NintrollerLib
                             break;
 
                         case AcknowledgementType.IR_Step3:
+                            Log("IR_Step3");
                             _ackType = AcknowledgementType.IR_Step4;
                             WriteToMemory(Constants.REGISTER_IR_MODE, new byte[] { (byte)_irMode });
                             break;
 
                         case AcknowledgementType.IR_Step4:
+                            Log("IR_Step4");
                             _ackType = AcknowledgementType.IR_Step5;
                             WriteToMemory(Constants.REGISTER_IR, new byte[] { 0x08 });
                             break;
 
                         case AcknowledgementType.IR_Step5:
                             #region Final IR Step
+                            Log("IR_Step5");
                             Log("IR Camera Enabled");
                             _ackType = AcknowledgementType.NA;
 
@@ -1247,7 +1255,7 @@ namespace NintrollerLib
                             //StateUpdate(this, arg);
 
                             // let's try not including the sender
-                            StateUpdate(null, arg);
+                            StateUpdate?.Invoke(null, arg);
                         }
                         catch (Exception ex)
                         {

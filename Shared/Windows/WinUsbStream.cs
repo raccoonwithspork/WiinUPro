@@ -109,7 +109,9 @@ namespace Shared.Windows
             
             if (errorCode != ErrorCode.Success)
             {
+#if DEBUG
                 System.Diagnostics.Debug.WriteLine("Error Reading from USB Device: " + errorCode);
+#endif
             }
 
             return length;
@@ -130,7 +132,7 @@ namespace Shared.Windows
         {
             throw new NotImplementedException();
         }
-        #endregion
+#endregion
     }
 }
 #endif

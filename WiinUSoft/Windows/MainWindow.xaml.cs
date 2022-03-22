@@ -81,7 +81,9 @@ namespace WiinUSoft
 
         private void Refresh()
         {
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("Refreshing");
+#endif
             hidList = WinBtStream.GetPaths();
             List<KeyValuePair<int, DeviceControl>> connectSeq = new List<KeyValuePair<int, DeviceControl>>();
             
@@ -419,7 +421,7 @@ namespace WiinUSoft
             UserPrefs.SavePrefs();
         }
 
-        #region Shortcut Creation
+#region Shortcut Creation
         public void CreateShortcut(string path)
         {
             IShellLink link = (IShellLink)new ShellLink();
@@ -461,7 +463,7 @@ namespace WiinUSoft
             void Resolve(IntPtr hwnd, int fFlags);
             void SetPath([MarshalAs(UnmanagedType.LPWStr)] string pszFile);
         }
-        #endregion
+#endregion
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {

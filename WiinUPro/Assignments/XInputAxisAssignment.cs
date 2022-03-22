@@ -7,7 +7,7 @@ namespace WiinUPro
         /// <summary>
         /// The XInput Device to use
         /// </summary>
-        public ScpDirector.XInput_Device Device { get; set; }
+        public ViGemXinputDirector.XInput_Device Device { get; set; }
 
         /// <summary>
         /// The XInput Axis to be simulated.
@@ -16,7 +16,7 @@ namespace WiinUPro
 
         public XInputAxisAssignment() { }
 
-        public XInputAxisAssignment(X360Axis axis, ScpDirector.XInput_Device device = ScpDirector.XInput_Device.Device_A)
+        public XInputAxisAssignment(X360Axis axis, ViGemXinputDirector.XInput_Device device = ViGemXinputDirector.XInput_Device.Device_A)
         {
             Axis = axis;
             Device = device;
@@ -24,7 +24,7 @@ namespace WiinUPro
 
         public void Apply(float value)
         {
-            ScpDirector.Access.SetAxis(Axis, value, Device);
+            ViGemXinputDirector.Access.SetAxis(Axis, value, Device);
         }
 
         public bool SameAs(IAssignment assignment)
